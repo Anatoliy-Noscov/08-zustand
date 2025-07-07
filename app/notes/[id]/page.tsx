@@ -1,5 +1,4 @@
 import { fetchNoteById } from "../../../lib/api";
-
 import {
   HydrationBoundary,
   QueryClient,
@@ -8,14 +7,11 @@ import {
 import NoteDetailsClient from "./NoteDetails.client";
 import { Metadata } from "next";
 
-type Props = {
-  params: { id: string };
-  searchParams: Record<string, string | string[] | undefined>;
-};
-
 export const generateMetadata = async ({
   params,
-}: Props): Promise<Metadata> => {
+}: {
+  params: { id: string };
+}): Promise<Metadata> => {
   const note = await fetchNoteById(Number(params.id));
 
   return {
@@ -36,7 +32,7 @@ export const generateMetadata = async ({
   };
 };
 
-export default async function NotePage({ params }: Props) {
+export default async function Page({ params }: { params: { id: string } }) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
