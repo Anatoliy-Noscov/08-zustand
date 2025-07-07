@@ -12,8 +12,7 @@ export const generateMetadata = async ({
 }: {
   params: { id: string };
 }): Promise<Metadata> => {
-  const { id } = params;
-  const note = await fetchNoteById(Number(id));
+  const note = await fetchNoteById(Number(params.id));
 
   return {
     title: note?.title || "Note not found",
@@ -21,7 +20,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: note?.title || "Note not found",
       description: note?.content || "",
-      url: `https://yourdomain.com/notes/${id}`,
+      url: `https://yourdomain.com/notes/${params.id}`,
       images: [
         {
           url: "https://picsum.photos/200/300",
@@ -33,17 +32,12 @@ export const generateMetadata = async ({
   };
 };
 
-export default async function NoteDetails({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params;
+export default async function Page({ params }: { params: { id: string } }) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["note", Number(id)],
-    queryFn: () => fetchNoteById(Number(id)),
+    queryKey: ["note", Number(params.id)],
+    queryFn: () => fetchNoteById(Number(params.id)),
   });
 
   return (
