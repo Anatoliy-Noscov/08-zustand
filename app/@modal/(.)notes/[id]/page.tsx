@@ -6,11 +6,7 @@ import {
 } from "@tanstack/react-query";
 import NotePreviewClient from "./NotePreview.client";
 
-interface NoteModalProps {
-  params: { id: string };
-}
-
-export default async function NoteModal({ params }: NoteModalProps) {
+export default async function NoteModal({ params }: any) {
   const { id } = params;
   const noteId = +id;
 
