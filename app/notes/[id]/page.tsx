@@ -1,4 +1,5 @@
 import { fetchNoteById } from "../../../lib/api";
+
 import {
   HydrationBoundary,
   QueryClient,
