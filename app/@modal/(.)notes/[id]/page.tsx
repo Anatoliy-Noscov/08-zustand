@@ -9,9 +9,9 @@ import NotePreviewClient from "./NotePreview.client";
 export default async function NoteModal({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
   const noteId = +id;
 
   const queryClient = new QueryClient();
