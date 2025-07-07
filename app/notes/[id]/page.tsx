@@ -1,4 +1,4 @@
-import fetchNoteId from "../../../lib/api";
+import { fetchNoteById } from "../../../lib/api";
 import {
   dehydrate,
   HydrationBoundary,
@@ -15,15 +15,14 @@ export const generateMetadata = async ({
   params,
 }: NoteDetailsProps): Promise<Metadata> => {
   const { id } = params;
-  const noteId = +id;
-  const note = await fetchNoteId(noteId);
+  const note = await fetchNoteById(Number(id));
 
   return {
-    title: note.title,
-    description: note.content,
+    title: note?.title || "Note not found",
+    description: note?.content || "",
     openGraph: {
-      title: note.title,
-      description: note.content,
+      title: note?.title || "Note not found",
+      description: note?.content || "",
       url: `https://yourdomain.com/notes/${id}`,
       images: [
         {
@@ -38,13 +37,11 @@ export const generateMetadata = async ({
 
 export default async function NoteDetails({ params }: NoteDetailsProps) {
   const { id } = params;
-  const noteId = +id;
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["note", noteId],
-    queryFn: () => fetchNoteId(noteId),
+    queryKey: ["note", Number(id)],
+    queryFn: () => fetchNoteById(Number(id)),
   });
 
   return (

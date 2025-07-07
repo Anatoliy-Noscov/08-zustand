@@ -40,13 +40,14 @@ export default function NoteForm() {
   }
 
   function handleSubmit(formData: FormData) {
-    const formValues: CreateNoteValues = {
+    const formValues = {
       title: formData.get("title") as string,
-      content: (formData.get("content") as string) || "",
+      content: formData.get("content") as string,
       tag: formData.get("tag") as Tag,
     };
-    mutationCreate.mutate(formValues);
-    clearDraft();
+    mutationCreate.mutate(formValues, {
+      onSuccess: () => clearDraft(),
+    });
   }
   return (
     <>
