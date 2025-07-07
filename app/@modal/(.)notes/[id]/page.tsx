@@ -1,4 +1,4 @@
-import fetchNoteId from "../../../../lib/api";
+import { fetchNoteById } from "../../../../lib/api";
 import {
   dehydrate,
   HydrationBoundary,
@@ -17,7 +17,7 @@ export default async function NoteModal({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["note", noteId],
-    queryFn: () => fetchNoteId(noteId),
+    queryFn: () => fetchNoteById(noteId),
   });
 
   return (
