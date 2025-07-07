@@ -7,6 +7,7 @@ import { createNote } from "../../lib/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDraftStore } from "@/lib/store/noteStore";
+
 export default function NoteForm() {
   const router = useRouter();
   const queryClient = useQueryClient();

@@ -7,7 +7,7 @@ import {
 import NotePreviewClient from "./NotePreview.client";
 
 interface NoteModalProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export default async function NoteModal({ params }: NoteModalProps) {
