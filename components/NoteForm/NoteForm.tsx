@@ -16,14 +16,15 @@ export default function NoteForm() {
   const mutationCreate = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["notes"],
-      });
-      router.push("/notes/filter/all");
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      clearDraft();
+      router.back();
       toast.success("Success! Your note has been saved.");
     },
-    onError: () => {
-      toast.error("Oops! The note couldn't be saved.");
+    onError: (error) => {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to create note"
+      );
     },
   });
 
