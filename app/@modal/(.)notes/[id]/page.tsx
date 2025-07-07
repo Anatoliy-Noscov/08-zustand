@@ -11,8 +11,9 @@ interface NoteModalProps {
 }
 
 export default async function NoteModal({ params }: NoteModalProps) {
-  const { id } = await params;
+  const { id } = params;
   const noteId = +id;
+
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["note", noteId],
