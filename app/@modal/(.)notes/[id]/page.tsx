@@ -6,14 +6,13 @@ import {
 } from "@tanstack/react-query";
 import NotePreviewClient from "./NotePreview.client";
 
-export default async function NoteModal({
-  params,
-}: {
+interface NoteModalProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export default async function NoteModal({ params }: NoteModalProps) {
   const { id } = await params;
   const noteId = +id;
-
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["note", noteId],

@@ -1,12 +1,12 @@
 "use client";
 
-import type { Tag } from "../../types/note";
+import type { CreateNoteValues, Tag } from "../../types/note";
 import css from "./Note.Form.module.css";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "../../lib/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useDraftStore } from "@/lib/store/noteStore";
+import { useDraftStore } from "../../lib/store/noteStore";
 
 export default function NoteForm() {
   const router = useRouter();
@@ -16,15 +16,14 @@ export default function NoteForm() {
   const mutationCreate = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
-      clearDraft();
-      router.back();
+      queryClient.invalidateQueries({
+        queryKey: ["notes"],
+      });
+      router.push("/notes/filter/all");
       toast.success("Success! Your note has been saved.");
     },
-    onError: (error) => {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to create note"
-      );
+    onError: () => {
+      toast.error("Oops! The note couldn't be saved.");
     },
   });
 
@@ -40,14 +39,13 @@ export default function NoteForm() {
   }
 
   function handleSubmit(formData: FormData) {
-    const formValues = {
+    const formValues: CreateNoteValues = {
       title: formData.get("title") as string,
-      content: formData.get("content") as string,
+      content: (formData.get("content") as string) || "",
       tag: formData.get("tag") as Tag,
     };
-    mutationCreate.mutate(formValues, {
-      onSuccess: () => clearDraft(),
-    });
+    mutationCreate.mutate(formValues);
+    clearDraft();
   }
   return (
     <>

@@ -10,7 +10,7 @@ import { useDebounce } from "use-debounce";
 import Loader from "../../../loading";
 import ErrorMessage from "./error";
 import { FetchNotesValues } from "../../../../types/note";
-import Link from "next/link"; // Добавляем импорт Link
+import Link from "next/link";
 
 interface NotesClientProps {
   initialPage: number;
@@ -62,10 +62,9 @@ export default function NotesClient({
       </div>
 
       {isLoading && <Loader />}
+
       {isError && <ErrorMessage error={error} />}
-      {isSuccess && notesRequest.length > 0 && (
-        <NoteList notes={notesRequest} />
-      )}
+      {isSuccess && <NoteList notes={notesRequest} />}
     </div>
   );
 }
